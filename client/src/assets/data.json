@@ -1,0 +1,210 @@
+{
+  "categories": [
+    {
+      "category_id": 1,
+      "name": "Burger",
+      "description": "Various types of burgers",
+      "img": "https://media.istockphoto.com/id/1494719284/photo/brioche-burger.jpg?s=1024x1024&w=is&k=20&c=4Ppd2CNDO53sCATLbRh2pZotkDBE_WSm8nDmUHuDiBo="
+    },
+    {
+      "category_id": 2,
+      "name": "Fruits",
+      "description": "Fresh and organic fruits",
+      "img": "https://media.istockphoto.com/id/1257538623/photo/fresh-food-delivery-service.jpg?s=1024x1024&w=is&k=20&c=3JpPkeue9pOM3uuzXJeUCQ8OoGzVGZU_Nl-eVmt4ii0="
+    },
+    {
+      "category_id": 3,
+      "name": "Pizza",
+      "description": "Delicious pizzas with various toppings",
+      "img": "https://media.istockphoto.com/id/1192094401/photo/delicious-vegetarian-pizza-on-white.webp?s=1024x1024&w=is&k=20&c=ZQKSxLVVwUgwFEUuDcam6Kc-7IdjpKw4wWA--6HbFZw="
+    },
+    {
+      "category_id": 4,
+      "name": "Vegetables",
+      "description": "Healthy and fresh vegetables",
+      "img": "https://images.freeimages.com/images/large-previews/f80/vegetables-1323472.jpg"
+    }
+  ],
+  "products": [
+    {
+      "product_id": 1,
+      "name": "Cheeseburger",
+      "description": "Juicy cheeseburger with lettuce and tomato",
+      "price": 5.99,
+      "available": true,
+      "category_id": 1,
+      "img": "https://media.istockphoto.com/id/176988891/photo/cheeseburge.jpg?s=1024x1024&w=is&k=20&c=aGuFtgMlxRqUHMsbTMjO1xKGkvcRCeV7au0uANRQelM="
+    },
+    {
+      "product_id": 2,
+      "name": "Bacon Burger",
+      "description": "Crispy bacon with a double beef patty",
+      "price": 7.99,
+      "available": true,
+      "category_id": 1,
+      "img": "https://media.istockphoto.com/id/149002918/photo/bacon-cheeseburger.jpg?s=1024x1024&w=is&k=20&c=gync3AGyHOOfrY8gi31ZfA8LywqyExaZyVfPd6EKIi4="
+    },
+    {
+      "product_id": 3,
+      "name": "Veggie Burger",
+      "description": "Grilled veggie patty with fresh toppings",
+      "price": 6.99,
+      "available": true,
+      "category_id": 1,
+      "img": "https://media.istockphoto.com/id/1409574042/photo/plant-based-meatless-burger-of-chickpeas-and-sweet-potato-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=FP4zS_xM_5hSLxG7KVZVDTc_J1LrjgLKCxqa5ejhrfA="
+    },
+    {
+      "product_id": 4,
+      "name": "Chicken Burger",
+      "description": "Grilled chicken breast with lettuce and mayo",
+      "price": 6.49,
+      "available": true,
+      "category_id": 1,
+      "img": "https://media.istockphoto.com/id/2153953475/photo/crispy-chicken-burger-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=MHlGQzgLdStcTJs5JhIyaFpGuXWVRqhSTH4FLORxjuc="
+    },
+    {
+      "product_id": 5,
+      "name": "Double Cheeseburger",
+      "description": "Two beef patties with double cheese",
+      "price": 8.99,
+      "available": true,
+      "category_id": 1,
+      "img": "https://media.istockphoto.com/id/1637776345/photo/double-cheeseburger.jpg?s=1024x1024&w=is&k=20&c=RZvqxDNWo8YGfB8qMWUbM1XrGBtPHHGrvPBYYw3xOrE="
+    },
+    {
+      "product_id": 6,
+      "name": "Apple",
+      "description": "Fresh red apple",
+      "price": 1.5,
+      "available": true,
+      "category_id": 2,
+      "img": "https://media.istockphoto.com/id/1763021094/photo/ripe-honeycrisp-apples-and-apple-slice-isolated-on-white-background.jpg?s=1024x1024&w=is&k=20&c=X3t4ZCnoUWRStDyRnyEho0eiGh4B2FJpQtQOFLM0cyo="
+    },
+    {
+      "product_id": 7,
+      "name": "Banana",
+      "description": "Ripe bananas full of nutrients",
+      "price": 1.2,
+      "available": true,
+      "category_id": 2,
+      "img": "https://media.istockphoto.com/id/619046500/photo/bananas.jpg?s=1024x1024&w=is&k=20&c=yoOaIURN_kYxFRKtAj1MCc7MnbE27cjoNhoD7OIzrIo="
+    },
+    {
+      "product_id": 8,
+      "name": "Orange",
+      "description": "Juicy orange, full of vitamin C",
+      "price": 1.3,
+      "available": true,
+      "category_id": 2,
+      "img": "https://images.freeimages.com/images/large-previews/da1/orange-1176187.jpg"
+    },
+    {
+      "product_id": 9,
+      "name": "Mango",
+      "description": "Ripe and juicy mango",
+      "price": 2.5,
+      "available": true,
+      "category_id": 2,
+      "img": "https://media.istockphoto.com/id/168370138/photo/mango.webp?s=1024x1024&w=is&k=20&c=HBXIjdVwjydQmINVBRCxeVivTdejyHsZPgVWLiniGRM="
+    },
+    {
+      "product_id": 10,
+      "name": "Strawberry",
+      "description": "Fresh and sweet strawberries",
+      "price": 3.99,
+      "available": true,
+      "category_id": 2,
+      "img": "https://media.istockphoto.com/id/1412854156/photo/strawberries-isolated-strawberry-whole-and-a-half-on-white-background-strawberry-slice-with.jpg?s=1024x1024&w=is&k=20&c=bv9U6hNHbxbR9D_CdhmeBN9pmZDf3nc5tiFsoHPHTuk="
+    },
+    {
+      "product_id": 11,
+      "name": "Pepperoni Pizza",
+      "description": "Pepperoni pizza with extra cheese",
+      "price": 12.99,
+      "available": true,
+      "category_id": 3,
+      "img": "https://media.istockphoto.com/id/184928432/photo/pizza-from-the-top-pepperoni-cheese.jpg?s=1024x1024&w=is&k=20&c=x9qBq0Gnp6low7VdgdtofEgSwjA8Q7jr3egJ0G2GgUs="
+    },
+    {
+      "product_id": 12,
+      "name": "Margherita Pizza",
+      "description": "Classic Margherita with fresh basil",
+      "price": 10.99,
+      "available": true,
+      "category_id": 3,
+      "img": "https://media.istockphoto.com/id/157741539/photo/pizza-margherita.jpg?s=1024x1024&w=is&k=20&c=Dp1JALVWZnnyyo4L7lhUdwtpX7TjtRjVmshzCuWmID8="
+    },
+    {
+      "product_id": 13,
+      "name": "BBQ Chicken Pizza",
+      "description": "Pizza with BBQ chicken and red onions",
+      "price": 13.99,
+      "available": true,
+      "category_id": 3,
+      "img": "https://media.istockphoto.com/id/1190696106/photo/delicious-slice-of-chicken-pizza-served-on-wooden-plate-and-on-white-background.jpg?s=1024x1024&w=is&k=20&c=DkWgabgyGw2qGZ6n0RGhOw6ir5__dXQ9BEq2Bop_2is="
+    },
+    {
+      "product_id": 14,
+      "name": "Veggie Pizza",
+      "description": "Pizza with mixed vegetables and cheese",
+      "price": 11.49,
+      "available": true,
+      "category_id": 3,
+      "img": "https://media.istockphoto.com/id/184098729/photo/vegetarian-pizza-03.jpg?s=1024x1024&w=is&k=20&c=UlNS64E5zdtGPhehIBE-NGe_Vun1sea33G2OYIOs7jw="
+    },
+    {
+      "product_id": 15,
+      "name": "Hawaiian Pizza",
+      "description": "Ham and pineapple pizza",
+      "price": 12.49,
+      "available": true,
+      "category_id": 3,
+      "img": "https://media.istockphoto.com/id/504274212/photo/pizza-with-pineapple-and-ham-on-white-background.jpg?s=1024x1024&w=is&k=20&c=oCuhzgyKp4of4KZyylffxeL_w60BJql2h8CRaKVFf5c="
+    },
+    {
+      "product_id": 16,
+      "name": "Carrots",
+      "description": "Organic carrots, fresh from the farm",
+      "price": 2.99,
+      "available": true,
+      "category_id": 4,
+      "img": "https://media.istockphoto.com/id/1461328272/photo/fresh-carrots-isolated-on-white-background.jpg?s=1024x1024&w=is&k=20&c=uG3kCRnA2Lg33zY6asor4IE-d1ighv4rJaqFOYF8gUE="
+    },
+    {
+      "product_id": 17,
+      "name": "Broccoli",
+      "description": "Fresh green broccoli",
+      "price": 3.49,
+      "available": true,
+      "category_id": 4,
+      "img": "https://media.istockphoto.com/id/183300149/photo/broccoli.webp?s=1024x1024&w=is&k=20&c=dZBLhXwBa1H-LnXy6Y6gE1dpAnVjlDdIR8LOx8-xUHs="
+    },
+    {
+      "product_id": 18,
+      "name": "Lettuce",
+      "description": "Crisp green lettuce",
+      "price": 1.99,
+      "available": true,
+      "category_id": 4,
+      "img": "https://media.istockphoto.com/id/153491286/photo/fresh-lettuce.jpg?s=1024x1024&w=is&k=20&c=49yH3WxPBvwTU7Poi-0-CRjVoZHJZVI5mlMgpOXBxFs="
+    },
+    {
+      "product_id": 19,
+      "name": "Spinach",
+      "description": "Fresh and healthy spinach",
+      "price": 2.49,
+      "available": true,
+      "category_id": 4,
+      "img": "https://media.istockphoto.com/id/1453790590/photo/pile-of-fresh-green-baby-spinach-leaves-isolated-on-white-background-close-up-flat-lay-food.jpg?s=1024x1024&w=is&k=20&c=zzwT6SkRZIoZQihlhqUT8I5RXDJ9B15iaQLsLJ8FZKI="
+    },
+    {
+      "product_id": 20,
+      "name": "Tomatoes",
+      "description": "Ripe red tomatoes",
+      "price": 2.99,
+      "available": true,
+      "category_id": 4,
+      "img": "https://media.istockphoto.com/id/1459115525/photo/tomato-vegetables-isolated-on-white-background.jpg?s=1024x1024&w=is&k=20&c=ypwEI8jhAnF_tOgLD4YsmG6ehe3Lr3pSze5vBkcxNoA="
+    }
+  ]
+}
