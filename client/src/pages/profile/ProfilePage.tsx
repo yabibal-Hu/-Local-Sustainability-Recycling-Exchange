@@ -1,4 +1,3 @@
-import Sidebar from "./Sidebar";
 
 const ProfilePage = () => {
   return (

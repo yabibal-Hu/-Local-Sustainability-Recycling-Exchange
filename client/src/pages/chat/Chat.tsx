@@ -1,6 +1,4 @@
-import React from "react";
 import Sidebar from "./Sidebar";
-import ChatHeader from "./ChatHeader";
 import Messages from "./Messages";
 import MessageInput from "./MessageInput";
 
