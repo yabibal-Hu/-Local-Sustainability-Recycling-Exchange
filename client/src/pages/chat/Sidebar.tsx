@@ -1,12 +1,7 @@
 import React from "react";
 
 const Sidebar: React.FC = () => {
-  const chats = [
-    { title: "Sustainable shoes", date: "1 day ago", time: "12:47 PM" },
-    { title: "Vintage dress", date: "2 days ago", time: "11:20 AM" },
-    { title: "Eco friendly...", date: "3 days ago", time: "10:03 AM" },
-    { title: "Reusable water...", date: "4 days ago", time: "9:30 AM" },
-  ];
+
 
   return (
     <div className="w-1/4 bg-gray-100 mx-6">
