@@ -1,0 +1,258 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Local Sustainability & Recycling Exchange API",
+    "description": "API documentation for user authentication, profile management, item management, and listings/claims features.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3500",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/api/users/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["name", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "_id": "user-id",
+                  "name": "John Doe",
+                  "email": "johndoe@example.com",
+                  "token": "jwt-token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error or user already exists",
+            "content": {
+              "application/json": {
+                "example": { "message": "User already exists" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "summary": "Login a user",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "_id": "user-id",
+                  "name": "John Doe",
+                  "email": "johndoe@example.com",
+                  "token": "jwt-token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "example": { "message": "Invalid email or password" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/profile": {
+      "get": {
+        "summary": "Get user profile",
+        "tags": ["Users"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "_id": "user-id",
+                  "name": "John Doe",
+                  "email": "johndoe@example.com",
+                  "profilePicture": "/uploads/profile.jpg"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": { "message": "Not authorized, token failed" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user profile",
+        "tags": ["Users"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" },
+                  "profilePicture": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User profile updated successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "_id": "user-id",
+                  "name": "John Doe",
+                  "email": "johndoe@example.com",
+                  "profilePicture": "/uploads/profile.jpg",
+                  "token": "jwt-token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": { "message": "Not authorized, token failed" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/items": {
+      "get": {
+        "summary": "Fetch all items",
+        "tags": ["Items"],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter items by category",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "distance",
+            "in": "query",
+            "description": "Filter items by maximum distance",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "condition",
+            "in": "query",
+            "description": "Filter items by condition",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "featured",
+            "in": "query",
+            "description": "Filter items by featured status",
+            "schema": { "type": "boolean" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Items fetched successfully",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "_id": "item-id",
+                    "name": "Laptop",
+                    "description": "Gaming laptop",
+                    "category": "Electronics",
+                    "price": 1200,
+                    "condition": "New",
+                    "distance": 10,
+                    "featured": true,
+                    "owner": {
+                      "_id": "user-id",
+                      "name": "John Doe",
+                      "email": "johndoe@example.com"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
