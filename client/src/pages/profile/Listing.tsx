@@ -1,6 +1,9 @@
+import Item from "../../components/item/Item";
 
 export default function Listing() {
   return (
-    <div>Listing</div>
-  )
+    <div>
+      <Item />
+    </div>
+  );
 }

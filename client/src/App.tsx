@@ -6,6 +6,8 @@ import Footer from "./components/Footer";
 import Chat from "./pages/chat/Chat";
 import AdminRoute from "./pages/admin/AdminRoute";
 import ProfileRoute from "./pages/profile/ProfileRoute";
+import ItemsPage from "./pages/ItemsPage/ItemsPage";
+import SignIn from "./pages/SignIn/SignIn";
 
 const App: React.FC = () => {
   const isActive = useLocation().pathname.split("/")[1];
@@ -17,8 +19,10 @@ const App: React.FC = () => {
         <Route path="/profile/*" element={<ProfileRoute />} />
         <Route path="/Chat" element={<Chat />} />
         <Route path="/admin/*" element={<AdminRoute />} />
+        <Route path="/Items/*" element={<ItemsPage />} />
+        <Route path="/login" element={<SignIn />} />
       </Routes>
-     {isActive !== "admin"  && <Footer />} 
+      {isActive !== "admin" && <Footer />}
     </>
   );
 };

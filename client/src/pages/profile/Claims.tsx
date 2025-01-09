@@ -1,6 +1,7 @@
+import Item from "../../components/item/Item";
 
 export default function Claims() {
   return (
-    <div>Claims</div>
+     <div><Item/></div>
   )
 }

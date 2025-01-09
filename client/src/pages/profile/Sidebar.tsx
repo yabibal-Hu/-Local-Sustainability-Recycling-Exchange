@@ -15,7 +15,7 @@ export default function Sidebar() {
       <nav>
         <ul className="space-y-4">
           <Link
-            to="/home"
+            to="/"
             className={`flex items-center gap-2 p-4 rounded-lg hover:bg-[#eff7f5] hover:text-gray-600 ${
               isActive === "home" ? "bg-[#E7F3F1] text-gray-600" : ""
             }`}
