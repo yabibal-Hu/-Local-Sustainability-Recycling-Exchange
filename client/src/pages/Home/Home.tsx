@@ -1,3 +1,4 @@
+import ItemsPage from "../ItemsPage/ItemsPage";
 import Hero from "./Hero";
 
 export default function Home() {
@@ -34,17 +35,19 @@ export default function Home() {
 
      {/* Categories Section */}
      <section className="py-8">
-       <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center space-x-4">
+       <div className="flex flex-wrap align-center justify-center gap-2 mb-6">
          {[
-           "Women's Clothing",
-           "Men's Clothing",
-           "Shoes",
-           "Home Goods",
+           "Clothing",
+           "Furniture",
+           "Plants",
+           "Books",
            "Electronics",
+           "Kitchenware",
+           "Art",
          ].map((category) => (
            <button
              key={category}
-             className="px-4 py-2 bg-gray-200 rounded-full hover:bg-gray-300"
+             className="px-8 py-3 text-md bg-gray-200 text-gray-600 rounded-full hover:bg-gray-300"
            >
              {category}
            </button>
@@ -62,7 +65,7 @@ export default function Home() {
          />
        </div>
      </section>
-
+     <ItemsPage />
      {/* Why Exchange Section */}
      <section className="py-12 bg-gray-100">
        <div className="max-w-7xl mx-auto px-4">
