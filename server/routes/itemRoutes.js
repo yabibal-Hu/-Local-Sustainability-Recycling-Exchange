@@ -26,4 +26,5 @@ router
 
 router.put("/:id/claim", protect, claimItem); // Private: Mark item as claimed
 
+
 module.exports = router;

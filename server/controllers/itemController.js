@@ -13,7 +13,6 @@ const getItems = asyncHandler(async (req, res) => {
     if (distance) query.distance = { $lte: Number(distance) }; // Filter by max distance
     if (condition) query.condition = condition.trim(); // Sanitize condition input
     if (featured) query.featured = featured === "true";
-
     const items = await Item.find(query).populate("owner", "name email");
     res.status(200).json(items);
   } catch (error) {
@@ -80,6 +79,7 @@ const createItem = asyncHandler(async (req, res) => {
     });
 
     res.status(201).json(newItem);
+
   } catch (error) {
     res
       .status(500)
@@ -91,6 +91,8 @@ const createItem = asyncHandler(async (req, res) => {
 // @route GET /api/items/:id
 // @access Public
 const getItemById = asyncHandler(async (req, res) => {
+
+// Get item by ID
   try {
     const item = await Item.findById(req.params.id).populate(
       "owner",
@@ -185,6 +187,7 @@ const deleteItem = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Item not found" });
     }
 
+
     if (item.owner.toString() !== req.user._id.toString()) {
       return res
         .status(403)
@@ -234,3 +237,4 @@ module.exports = {
   deleteItem,
   claimItem,
 };
+

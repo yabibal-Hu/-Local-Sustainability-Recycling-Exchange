@@ -24,6 +24,9 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const user = await User.create({ name, email, password });
 
+
+
+
   if (user) {
     res.status(201).json({
       _id: user.id,
@@ -43,6 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
+ 
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
@@ -64,6 +68,9 @@ const loginUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
+
+
+// Get User Profile
   if (user) {
     res.json({
       _id: user.id,
@@ -124,3 +131,4 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
 };
+ 

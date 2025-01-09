@@ -3,6 +3,7 @@ const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
 const protect = asyncHandler(async (req, res, next) => {
+
   let token;
 
   if (
@@ -27,5 +28,6 @@ const protect = asyncHandler(async (req, res, next) => {
     throw new Error("Not authorized, no token");
   }
 });
+     
 
 module.exports = { protect };
