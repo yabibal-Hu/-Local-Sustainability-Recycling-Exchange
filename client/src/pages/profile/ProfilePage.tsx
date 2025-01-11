@@ -126,7 +126,7 @@ const ProfilePage = () => {
             <button className="px-4 py-2 text-white bg-[#38CEBC] rounded hover:bg-[#1ACAB7]">
               Settings
             </button>
-            <button onClick={logout} className=" flex items-center space-x-2 px-4 py-2 text-white bg-[#38CEBC] rounded hover:bg-[#1ACAB7]">
+            <button onClick={logout} className="px-4 py-2 flex items-center gap-2 text-gray-700 bg-[#E7F3F1] rounded hover:bg-[#D1E8E3]">
               <img
                 src="https://img.icons8.com/?size=100&id=64779&format=png&color=000000"
                 alt=""

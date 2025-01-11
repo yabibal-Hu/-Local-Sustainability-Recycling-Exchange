@@ -1,42 +1,12 @@
 import ItemsPage from "../ItemsPage/ItemsPage";
-// import axios from "axios";
 import Hero from "./Hero";
-// import { useEffect, useState } from "react";
-// const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Home() {
-//   const [items, setItems] = useState([]);
-// useEffect(() => {
-//   const fetchItems = async () => {
-//     try {
-//       const response = await axios.get(`${API_URL}/api/items`);
-//       setItems(response.data);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
 
-//   fetchItems();
-// }, []);
 
  return (
    <div className="font-sans">
-     {/* Header */}
-     {/* <header className="flex justify-between items-center p-4 shadow-md">
-       <div className="text-xl font-semibold">GreenGoods</div>
-       <div className="flex items-center space-x-4">
-         <input
-           type="text"
-           placeholder="Search"
-           className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-         />
-         <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-           <span className="text-gray-500">👤</span>
-         </div>
-       </div>
-     </header> */}
-
-     {/* Hero Section */}
+    
      <Hero />
 
      {/* Our Impact Section */}
