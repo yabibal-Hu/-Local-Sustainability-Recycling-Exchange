@@ -15,7 +15,7 @@ export default function Header() {
             className="w-12 h-12"
             alt=""
           />
-          <p className="text-2xl font-semibold text-gray-800">EcoExchange</p>
+          <p className="text-2xl font-semibold text-gray-800">We Exchange</p>
         </Link>
         <div className="flex items-center space-x-10">
           <div>

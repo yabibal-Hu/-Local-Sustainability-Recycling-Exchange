@@ -1,5 +1,12 @@
+import { useState } from "react";
 import blog from "/assets/imgs/blog.jpg";
+import ItemPost from "../../components/item/ItemPost";
 export default function Hero() {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+   const handleModalOpen = () => setIsModalOpen(true);
+   const handleModalClose = () => setIsModalOpen(false);
+
   return (
     <section className="bg-gray-100 py-12">
       <div className="max-w-7xl mx-auto px-4 md:flex md:items-center">
@@ -13,7 +20,10 @@ export default function Hero() {
             <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
               Start Exchanging Today!
             </button>
-            <button className="px-4 py-2 bg-white border rounded-md hover:bg-gray-100">
+            <button
+              onClick={handleModalOpen}
+              className="px-4 py-2 bg-white border rounded-md hover:bg-gray-100"
+            >
               Post an Item
             </button>
           </div>
@@ -26,6 +36,7 @@ export default function Hero() {
           />
         </div>
       </div>
+      {isModalOpen && <ItemPost onClose={handleModalClose} />}
     </section>
   );
 }
