@@ -8,9 +8,17 @@ import AdminRoute from "./pages/admin/AdminRoute";
 import ProfileRoute from "./pages/profile/ProfileRoute";
 import ItemsPage from "./pages/ItemsPage/ItemsPage";
 import SignIn from "./pages/SignIn/SignIn";
+import ItemDetail from "./components/item/Item";
+import { useAuth } from "./contexts/AuthContext";
 
 const App: React.FC = () => {
-  const isActive = useLocation().pathname.split("/")[1];
+  const { user } = useAuth(); // Extract user from context
+
+  if (!user?.token) {
+    // Check if there's no token
+    return <SignIn />;
+  }
+
   return (
     <>
       <Header />
@@ -21,8 +29,10 @@ const App: React.FC = () => {
         <Route path="/admin/*" element={<AdminRoute />} />
         <Route path="/Items/*" element={<ItemsPage />} />
         <Route path="/login" element={<SignIn />} />
+        <Route path="/item/:id" element={<ItemDetail />} />
       </Routes>
-      {isActive !== "admin" && <Footer />}
+      {/* Hide footer on admin route */}
+      {useLocation().pathname.split("/")[1] !== "admin" && <Footer />}
     </>
   );
 };

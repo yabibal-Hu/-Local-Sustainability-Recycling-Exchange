@@ -24,15 +24,12 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const user = await User.create({ name, email, password });
 
-
-
-
   if (user) {
     res.status(201).json({
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user.id),
+      token: generateToken(user.id, user.email, user.name,user.profilePicture,user.role),
     });
   } else {
     res.status(400);
@@ -46,16 +43,24 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
- 
   const user = await User.findOne({ email });
-
+console.log("user", user);
   if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user.id),
-    });
+   res.json({
+     _id: user._id,
+     name: user.name,
+     email: user.email,
+     profilePicture: user.profilePicture,
+     role: user.role,
+     token: generateToken(
+       user.id,
+       user.email,
+       user.name,
+       user.profilePicture,
+       user.role
+     ),
+   });
+
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
@@ -68,9 +73,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
-
-
-// Get User Profile
+  // Get User Profile
   if (user) {
     res.json({
       _id: user.id,
@@ -131,4 +134,3 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
 };
- 

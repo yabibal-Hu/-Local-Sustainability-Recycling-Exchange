@@ -1,7 +1,24 @@
 import ItemsPage from "../ItemsPage/ItemsPage";
+// import axios from "axios";
 import Hero from "./Hero";
+// import { useEffect, useState } from "react";
+// const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Home() {
+//   const [items, setItems] = useState([]);
+// useEffect(() => {
+//   const fetchItems = async () => {
+//     try {
+//       const response = await axios.get(`${API_URL}/api/items`);
+//       setItems(response.data);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   fetchItems();
+// }, []);
+
  return (
    <div className="font-sans">
      {/* Header */}

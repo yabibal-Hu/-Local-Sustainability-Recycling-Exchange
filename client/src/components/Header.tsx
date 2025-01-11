@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Header() {
+  const { profiles,user } = useAuth();
+  const profilePicture = profiles?.profilePicture || "";
   return (
     <div className="sticky top-0 z-50 bg-white">
       <div className="bg-[#2C1F2E]">Header</div>
@@ -45,21 +49,29 @@ export default function Header() {
                 className="w-10 h-10 bg-[#E7F3F1] rounded-lg p-2"
               />
             </Link>
-            <Link to="/profile">
+            {/* <Link to="/profile">
               <img
                 src="https://img.icons8.com/?size=100&id=2oRq7VXjDba7&format=png&color=000000"
                 alt=""
                 className="w-10 h-10 bg-[#E7F3F1] rounded-lg p-2"
               />
-            </Link>
+            </Link> */}
           </div>
-          <div>
-            <img
-              src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt=""
-              className=" h-10 w-10 rounded-full"
-            />
-          </div>
+          <Link to="/profile">
+            {profilePicture ? (
+              <img
+                src={`${API_URL}${
+                  profilePicture ? profilePicture : user?.profilePicture
+                }`}
+                alt=""
+                className=" h-10 w-10 rounded-full border-2 border-[#E7F3F1]"
+              />
+            ) : (
+              <div className="  h-10 w-10 rounded-full bg-gray-600 flex items-center justify-center text-white text-4xl font-semibold">
+                {user?.name?.charAt(0).toUpperCase() || "U"}
+              </div>
+            )}
+          </Link>
         </div>
       </div>
     </div>
