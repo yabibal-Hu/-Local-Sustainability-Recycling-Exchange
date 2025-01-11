@@ -1,43 +1,34 @@
+import axios from "axios";
 import ItemCard from "../../components/item/ItemCard";
+import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
+
+// Correcting the type to reflect the response structure, assuming the API returns _id
+interface Item {
+  _id: string;
+  id: string;
+  name: string;
+  title: string;
+  price: string;
+  image: string;
+}
 
 export default function ItemsPage() {
-  const items = [
-    {
-      id: 1,
-      title: "Bike",
-      price: "$200",
-      image:
-        "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-    {
-      id: 2,
-      title: "Desk",
-      price: "$50",
-      image:
-        "https://images.pexels.com/photos/374074/pexels-photo-374074.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-    {
-      id: 3,
-      title: "Clothing",
-      price: "Free",
-      image:
-        "https://images.pexels.com/photos/3965542/pexels-photo-3965542.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-    {
-      id: 4,
-      title: "Plant",
-      price: "$10",
-      image:
-        "https://images.pexels.com/photos/1022928/pexels-photo-1022928.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-    {
-      id: 5,
-      title: "Art",
-      price: "$30",
-      image:
-        "https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg?auto=compress&cs=tinysrgb&w=800",
-    },
-  ];
+  const [items, setItems] = useState<Item[]>([]);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        // Type the response.data as an array of Item
+        const response = await axios.get<Item[]>(`${API_URL}/api/items`);
+        setItems(response.data); // Set the items from API response
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchItems();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 px-64 py-12">
@@ -53,7 +44,7 @@ export default function ItemsPage() {
         </div>
         <div className="grid grid-cols-5 gap-8">
           {items.map((item) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard key={item._id} item={item} />
           ))}
         </div>
       </section>
@@ -65,7 +56,7 @@ export default function ItemsPage() {
         </h2>
         <div className="grid grid-cols-5 gap-4">
           {items.map((item) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard key={item._id} item={item} />
           ))}
         </div>
       </section>
@@ -73,7 +64,7 @@ export default function ItemsPage() {
       {/* Filters Section */}
       <section className="mb-12">
         <h2 className="text-xl font-semibold text-gray-800 mb-6">All items</h2>
-        
+
         <div className="flex flex-wrap gap-2 mb-6">
           {["New", "Like New", "Good", "Fair"].map((condition) => (
             <button
@@ -102,7 +93,7 @@ export default function ItemsPage() {
       <section>
         <div className="grid grid-cols-5 gap-4">
           {items.map((item) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard key={item._id} item={item} />
           ))}
         </div>
       </section>

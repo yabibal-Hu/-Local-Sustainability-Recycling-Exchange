@@ -1,19 +1,123 @@
+import axios from "axios";
+import { useAuth } from "../../contexts/AuthContext";
+import { useEffect, useState } from "react";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+// Define the structure of the profile
+interface Profile {
+  name?: string;
+  profilePicture?: string;
+}
+interface Item {
+  name: string;
+  image: string;
+  description: string;
+  posted: string;
+  price: number;
+}
+
 const ProfilePage = () => {
+  const { user, setProfiles } = useAuth();
+  const [items, setItems] = useState([]);
+  const [profile, setProfile] = useState<Profile>({}); // Explicitly typed state
+  const { name, profilePicture } = profile;
+  const id = user?.id;
+  const token = user?.token;
+  console.log("items", items);
+  // Fetch user by id
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const items = await axios.get(`${API_URL}/api/items`);
+        // filter items by user id
+        console.log("items", items.data);
+        setItems(
+          items.data.filter((item: any) => item.owner._id.toString() === id)
+        );
+        setProfile(response.data);
+        setProfiles(response.data);
+        // sessionStorage.setItem("profile", JSON.stringify(response.data));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const updateProfilePicture = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    console.log("file", file);
+    if (file) {
+      const formData = new FormData();
+      formData.append("profilePicture", file);
+
+      try {
+        const response = await axios.put(
+          `${API_URL}/api/users/profile`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.token}`,
+            },
+          }
+        );
+        setProfile(response.data); // Update the profile with the new picture
+      } catch (error) {
+        console.error("Error updating profile picture:", error);
+      }
+    }
+  };
+
+  const logout = () => {
+    sessionStorage.removeItem("token");
+    window.location.href = "/";
+  }
+
   return (
     <div className="flex h-screen ">
-      {/* Sidebar */}
-      {/* <Sidebar /> */}
-      {/* Main Content */}
       <main className="flex-1 p-8 w-3/4">
-        {/* Profile Info */}
         <div className="flex flex-col gap-2 items-center">
-          <img
-            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt="Jane Andrews"
-            className="w-24 h-24 rounded-full"
-          />
-          <h1 className="text-2xl font-semibold">Jane Andrews</h1>
-          <p className="text-[#94BDB6]">UX designer at Acme, Inc.</p>
+          <div className="relative">
+            {profilePicture ? (
+              <img
+                src={`${API_URL}${profilePicture}`}
+                alt={name || "Profile Picture"}
+                className="w-24 h-24 rounded-full border"
+              />
+            ) : (
+              <div className="w-24 h-24 rounded-full bg-gray-600 flex items-center justify-center text-white text-4xl font-semibold">
+                {user?.name?.charAt(0).toUpperCase() || "U"}
+              </div>
+            )}
+            <label
+              htmlFor="profilePictureInput"
+              className="absolute  bottom-0 right-0 cursor-pointer"
+            >
+              <img
+                src="https://img.icons8.com/?size=100&id=11816&format=png&color=000000"
+                alt="Edit"
+                className="w-6 h-6 hover:w-7 hover:h-7"
+              />
+              <input
+                type="file"
+                id="profilePictureInput"
+                accept="image/*"
+                className="hidden"
+                onChange={updateProfilePicture}
+              />
+            </label>
+          </div>
+          <h1 className="text-2xl font-semibold">{name || "User"}</h1>
+          <p className="text-[#94BDB6]">{user?.email}</p>
 
           <div className="flex space-x-4">
             <button className="px-4 py-2 text-gray-700 bg-[#E7F3F1] rounded hover:bg-[#D1E8E3]">
@@ -21,6 +125,14 @@ const ProfilePage = () => {
             </button>
             <button className="px-4 py-2 text-white bg-[#38CEBC] rounded hover:bg-[#1ACAB7]">
               Settings
+            </button>
+            <button onClick={logout} className=" flex items-center space-x-2 px-4 py-2 text-white bg-[#38CEBC] rounded hover:bg-[#1ACAB7]">
+              <img
+                src="https://img.icons8.com/?size=100&id=64779&format=png&color=000000"
+                alt=""
+                className="w-6 h-6"
+              />
+              <p className="">logout</p>
             </button>
           </div>
         </div>
@@ -40,43 +152,26 @@ const ProfilePage = () => {
 
         {/* Listings */}
         <div className="mt-6 space-y-4">
-          {[
-            {
-              name: "Sofa",
-              price: "$1200",
-              posted: "2 days ago",
-              img: "https://www.housingunits.co.uk/media/catalog/product/cache/6988f987dc3394f24496d57c2f3e330c/a/d/ad3ec91cb8832946abbdc75686b5908b.jpg",
-            },
-            {
-              name: "Jacket",
-              price: "$500",
-              posted: "1 day ago",
-              img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5ltdqeMEFLPrBD13fjIFNMkzz62XUKuLXdg&s",
-            },
-            {
-              name: "Shoes",
-              price: "$150",
-              posted: "3 days ago",
-              img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG8JXm4ppRI3gjvuNrH2EFXi9AYYKyQcD9Rg&s",
-            },
-          ].map((item, index) => (
+          {items.map((item: Item, index) => (
             <div
               key={index}
               className="flex items-center justify-between p-4 bg-white rounded shadow"
             >
               <div className="flex items-center">
                 <img
-                  src={item.img}
+                  src={API_URL + (item as { image: string }).image}
                   alt={item.name}
                   className="w-16 h-16 mr-4 rounded"
                 />
                 <div>
                   <h3 className="text-lg font-medium">{item.name}</h3>
-                  <p className="text-sm text-gray-500">Posted {item.posted}</p>
+                  <p className="text-sm text-gray-500">
+                    {item.description} {item.posted}
+                  </p>
                 </div>
               </div>
               <span className="text-lg font-semibold text-gray-700">
-                {item.price}
+                $ {item.price}
               </span>
             </div>
           ))}

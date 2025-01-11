@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./docs/swagger.json");
+const cors = require("cors");
+const path = require("path");
 
 // Load environment variables
 dotenv.config();
@@ -13,13 +15,25 @@ connectDB();
 // Initialize Express
 const app = express();
 
+// Enable CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true, // Enable cookies if needed
+  })
+);
+const corsOptions = {
+  origin: process.env.VITE_FRONT_END,
+  optionsSuccessStatus: 200,
+};
+
 // Middleware to parse JSON
 app.use(express.json());
-
+app.use(cors(corsOptions));
 // Serve Swagger Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Import Routes
 const userRoutes = require("./routes/userRoutes");
 const itemRoutes = require("./routes/itemRoutes");
