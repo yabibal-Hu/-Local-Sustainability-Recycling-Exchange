@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-const API_URL = import.meta.env.VITE_API_URL;
+// const API_URL = import.meta.env.VITE_API_URL;
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -22,7 +22,7 @@ export default function AuthPage() {
     setSuccessMessage("");
         try {
       const response = await axios.post(
-        `${API_URL}/api/users/register`,
+        `https://local-sustainability-recycling-exchange-pif6.onrender.com/api/users/register`,
         signUpData
       );
       if (response.status === 201) {
@@ -51,7 +51,7 @@ export default function AuthPage() {
     setSuccessMessage("");
     try {
       const response = await axios.post(
-        `${API_URL}/api/users/login`,
+        `https://local-sustainability-recycling-exchange-pif6.onrender.com/api/users/login`,
         signInData
       );
       if (response.status === 200) {
