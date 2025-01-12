@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import Loading from "../Loading";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -25,9 +27,9 @@ interface User {
 export default function ItemDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   const [item, setItem] = useState<Item | null>(null);
-  const [user, setUser] = useState<User>({});
+  const [userr, setUser] = useState<User>({});
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   useEffect(() => {
@@ -42,6 +44,13 @@ export default function ItemDetail() {
       });
   }, [id]);
 
+  if (!item || !user) {
+    return (
+      <div className="w-36 h-36 absolute top-1/2 left-1/2 transform">
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className="m-16 mt-8 p-6 bg-gray-50 rounded-lg shadow-lg">
       {/* Item Header */}
@@ -59,25 +68,27 @@ export default function ItemDetail() {
             </h2>
             <p className="text-sm text-gray-500">
               Posted by{" "}
-              <span className="font-semibold">{user.name || "Unknown"}</span>
+              <span className="font-semibold">{userr.name || "Unknown"}</span>
             </p>
           </div>
         </div>
         <div className="flex items-center">
-          <span className="text-2xl font-semibold text-green-600 mr-4">
+          <span className="text-2xl font-semibold text-[#38CEBC] mr-4">
             ${item?.price || "0"}
           </span>
-          <button
-            className="flex items-center p-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
-            onClick={() => navigate("/chat")}
-          >
-            <img
-              src="https://img.icons8.com/?size=100&id=81271&format=png&color=000000"
-              alt=""
-              className="w-6 h-6 mr-2"
-            />
-            Message
-          </button>
+          {user?.email !== userr.email && (
+            <button
+              className="flex items-center p-2 bg-[#91c4be] text-white rounded-lg shadow hover:bg-[#1ACAB7]"
+              onClick={() => navigate("/chat")}
+            >
+              <img
+                src="https://img.icons8.com/?size=100&id=81271&format=png&color=000000"
+                alt=""
+                className="w-6 h-6 mr-2"
+              />
+              Message
+            </button>
+          )}
         </div>
       </div>
 

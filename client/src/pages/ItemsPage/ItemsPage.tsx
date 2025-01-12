@@ -11,17 +11,24 @@ interface Item {
   title: string;
   price: string;
   image: string;
+  category: string;
 }
+type ItemsPageProps = {
+  categories: string;
+};
 
-export default function ItemsPage() {
+
+ const ItemsPage: React.FC<ItemsPageProps> = ({ categories }) => {
   const [items, setItems] = useState<Item[]>([]);
-
+  const [filteredItems, setFilteredItems] = useState<Item[]>([]);
+console.log("categories", categories)
   useEffect(() => {
     const fetchItems = async () => {
       try {
         // Type the response.data as an array of Item
         const response = await axios.get<Item[]>(`${API_URL}/api/items`);
         setItems(response.data); // Set the items from API response
+
       } catch (error) {
         console.error(error);
       }
@@ -29,6 +36,12 @@ export default function ItemsPage() {
 
     fetchItems();
   }, []);
+
+  useEffect(() => {
+    setFilteredItems(
+      items.filter((item) => item.category === categories)
+    );
+  },[categories, items]);
 
   return (
     <div className="min-h-screen bg-gray-50 px-64 py-12">
@@ -38,12 +51,12 @@ export default function ItemsPage() {
           <h2 className="text-xl font-semibold text-gray-800">
             Featured items
           </h2>
-          <button className="px-8 py-3 my-auto text-md bg-gray-200 text-gray-600 rounded-full hover:bg-gray-300">
+          {/* <button className="px-8 py-3 my-auto text-md bg-gray-200 text-gray-600 rounded-full hover:bg-gray-300">
             View all
-          </button>
+          </button> */}
         </div>
         <div className="grid grid-cols-5 gap-8">
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <ItemCard key={item._id} item={item} />
           ))}
         </div>
@@ -65,28 +78,8 @@ export default function ItemsPage() {
       <section className="mb-12">
         <h2 className="text-xl font-semibold text-gray-800 mb-6">All items</h2>
 
-        <div className="flex flex-wrap gap-2 mb-6">
-          {["New", "Like New", "Good", "Fair"].map((condition) => (
-            <button
-              key={condition}
-              className="px-8 py-3 text-md bg-gray-200 text-gray-600 rounded-full hover:bg-gray-300"
-            >
-              {condition}
-            </button>
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {["5 miles", "10 miles", "15 miles", "20 miles", "25 miles"].map(
-            (distance) => (
-              <button
-                key={distance}
-                className="px-8 py-3 text-md bg-gray-200 text-gray-600 rounded-full hover:bg-gray-300"
-              >
-                {distance}
-              </button>
-            )
-          )}
-        </div>
+        <div className="flex flex-wrap gap-2 mb-6"></div>
+        <div className="flex flex-wrap gap-2"></div>
       </section>
 
       {/* All Items Section */}
@@ -99,4 +92,6 @@ export default function ItemsPage() {
       </section>
     </div>
   );
-}
+};
+
+export default ItemsPage;

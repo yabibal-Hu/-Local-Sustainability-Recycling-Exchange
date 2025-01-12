@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import ItemEdit from "../../components/item/ItemEdit";
+import Loading from "../../components/Loading";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,12 +18,17 @@ interface Item {
   description: string;
   posted: string;
   price: number;
+  _id: string;
 }
 
 const ProfilePage = () => {
   const { user, setProfiles } = useAuth();
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [profile, setProfile] = useState<Profile>({}); // Explicitly typed state
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
   const { name, profilePicture } = profile;
   const id = user?.id;
   const token = user?.token;
@@ -42,6 +50,7 @@ const ProfilePage = () => {
         );
         setProfile(response.data);
         setProfiles(response.data);
+        setLoading(false);
         // sessionStorage.setItem("profile", JSON.stringify(response.data));
       } catch (error) {
         console.error(error);
@@ -81,6 +90,7 @@ const ProfilePage = () => {
     sessionStorage.removeItem("token");
     window.location.href = "/";
   }
+  
 
   return (
     <div className="flex h-screen ">
@@ -126,7 +136,10 @@ const ProfilePage = () => {
             <button className="px-4 py-2 text-white bg-[#38CEBC] rounded hover:bg-[#1ACAB7]">
               Settings
             </button>
-            <button onClick={logout} className="px-4 py-2 flex items-center gap-2 text-gray-700 bg-[#E7F3F1] rounded hover:bg-[#D1E8E3]">
+            <button
+              onClick={logout}
+              className="px-4 py-2 flex items-center gap-2 text-gray-700 bg-[#E7F3F1] rounded hover:bg-[#D1E8E3]"
+            >
               <img
                 src="https://img.icons8.com/?size=100&id=64779&format=png&color=000000"
                 alt=""
@@ -153,28 +166,43 @@ const ProfilePage = () => {
         {/* Listings */}
         <div className="mt-6 space-y-4">
           {items.map((item: Item, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-4 bg-white rounded shadow"
-            >
-              <div className="flex items-center">
-                <img
-                  src={API_URL + (item as { image: string }).image}
-                  alt={item.name}
-                  className="w-16 h-16 mr-4 rounded"
-                />
-                <div>
-                  <h3 className="text-lg font-medium">{item.name}</h3>
-                  <p className="text-sm text-gray-500">
-                    {item.description} {item.posted}
-                  </p>
+            <>
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 bg-white rounded shadow"
+              >
+                <div className="flex items-center">
+                  <Link to={`/item/${item._id}`}>
+                    <img
+                      src={API_URL + (item as { image: string }).image}
+                      alt={item.name}
+                      className="w-16 h-16 mr-4 rounded"
+                    />
+                  </Link>
+                  <div>
+                    <h3 className="text-lg font-medium">{item.name}</h3>
+                    <p className="text-sm text-gray-500">
+                      {item.description} {item.posted}
+                    </p>
+                  </div>
                 </div>
+                <span className="text-lg font-semibold text-gray-700">
+                  $ {item.price}
+                </span>
+                <button onClick={handleModalOpen}>
+                  <img
+                    src="https://img.icons8.com/?size=100&id=102714&format=png&color=000000"
+                    alt=""
+                    className="w-16 h-16"
+                  />
+                </button>
               </div>
-              <span className="text-lg font-semibold text-gray-700">
-                $ {item.price}
-              </span>
-            </div>
+              {isModalOpen && (
+                <ItemEdit itemId={item._id} onClose={handleModalClose} />
+              )}
+            </>
           ))}
+          {loading && <div className=" w-24 h-24 mx-auto"><Loading /></div>}
         </div>
       </main>
     </div>
