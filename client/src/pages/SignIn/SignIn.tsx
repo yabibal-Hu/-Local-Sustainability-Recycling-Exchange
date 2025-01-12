@@ -52,7 +52,10 @@ export default function AuthPage() {
     try {
       const response = await axios.post(
         `https://local-sustainability-recycling-exchange-pif6.onrender.com/api/users/login`,
-        signInData
+        signInData,
+        {
+          withCredentials: true, // Ensures cookies or tokens are sent with the request
+        }
       );
       if (response.status === 200) {
         sessionStorage.setItem("token", response.data.token);
