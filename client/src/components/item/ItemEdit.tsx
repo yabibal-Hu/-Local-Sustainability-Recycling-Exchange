@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -14,17 +14,39 @@ type ItemData = {
   image?: File | null; // Update to store the file object
 };
 
-interface ItemPostProps {
+interface ItemEditProps {
+  itemId: string; // Item ID to edit
   onClose: () => void;
 }
 
 const allowedConditions = ["New", "Used", "Good", "Fair", "Poor"];
 
-export default function ItemPost({ onClose }: ItemPostProps) {
+export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
   const { user } = useAuth();
   const token = user?.token || "";
   const [itemData, setItemData] = useState<ItemData>({ image: null });
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false); // Add loading state
+  const [success, setSuccess] = useState<boolean>(false); // Add success state
+
+  // Fetch the existing item data when the component mounts
+  useEffect(() => {
+    const fetchItemData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/items/${itemId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setItemData(response.data);
+      } catch (err) {
+        setError("Failed to fetch item data. Please try again later.");
+        console.error(err);
+      }
+    };
+
+    fetchItemData();
+  }, [itemId, token]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -41,7 +63,7 @@ export default function ItemPost({ onClose }: ItemPostProps) {
     }
   };
 
-  const handleAddItem = async (e: React.FormEvent) => {
+  const handleEditItem = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Basic validation
@@ -57,6 +79,7 @@ export default function ItemPost({ onClose }: ItemPostProps) {
 
     try {
       setError(null);
+      setLoading(true); // Set loading to true
 
       // Create FormData
       const formData = new FormData();
@@ -66,19 +89,30 @@ export default function ItemPost({ onClose }: ItemPostProps) {
       formData.append("condition", itemData.condition || "");
       formData.append("price", itemData.price || "");
       formData.append("distance", itemData.distance || "");
-      formData.append("image", itemData.image); // Append the file
+      if (itemData.image) {
+        formData.append("image", itemData.image); // Append the file
+      }
 
-      // Send data to the backend
-      await axios.post(`${API_URL}/api/items`, formData, {
+      // Send data to the backend to update the item
+      await axios.put(`${API_URL}/api/items/${itemId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Required for file uploads
           Authorization: `Bearer ${token}`,
         },
       });
 
+      setSuccess(true); // Set success state
+      setLoading(false); // Set loading to false
+
+      // After successful update, refresh the page
+      setTimeout(() => {
+        window.location.reload(); // Reload the page
+      }, 1500);
+
       onClose(); // Close the modal on successful submission
     } catch (err) {
-      setError("Failed to post the item. Please try again later.");
+      setError("Failed to update the item. Please try again later.");
+      setLoading(false); // Set loading to false in case of error
       console.error(err);
     }
   };
@@ -86,11 +120,14 @@ export default function ItemPost({ onClose }: ItemPostProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="p-6 w-full max-w-lg bg-white rounded-lg shadow-lg relative">
-        <h2 className="text-xl font-semibold mb-4 text-center">
-          Post an Item
-        </h2>
+        <h2 className="text-xl font-semibold mb-4 text-center">Edit Item</h2>
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
-        <form onSubmit={handleAddItem} className="space-y-4">
+        {success && (
+          <p className="text-green-500 mb-4 text-center">
+            Item updated successfully!
+          </p>
+        )}
+        <form onSubmit={handleEditItem} className="space-y-4">
           {[
             { label: "Name", name: "name", type: "text" },
             { label: "Description", name: "description", type: "text" },
@@ -108,7 +145,9 @@ export default function ItemPost({ onClose }: ItemPostProps) {
                 id={field.name}
                 name={field.name}
                 type={field.type}
-                value={(itemData[field.name as keyof ItemData] ?? "").toString()}
+                value={(
+                  itemData[field.name as keyof ItemData] ?? ""
+                ).toString()}
                 onChange={handleInputChange}
                 className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
                 required={field.name === "name" || field.name === "price"}
@@ -179,7 +218,6 @@ export default function ItemPost({ onClose }: ItemPostProps) {
               accept="image/*"
               onChange={handleImageChange}
               className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
-              required
             />
           </div>
           <div className="flex justify-end space-x-4">
@@ -192,9 +230,10 @@ export default function ItemPost({ onClose }: ItemPostProps) {
             </button>
             <button
               type="submit"
+              disabled={loading}
               className="bg-[#38CEBC] text-white px-4 py-2 rounded hover:bg-[#1ACAB7]"
             >
-              Add Item
+              {loading ? "Updating..." : "Update Item"}
             </button>
           </div>
         </form>
