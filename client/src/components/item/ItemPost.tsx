@@ -25,7 +25,9 @@ export default function ItemPost({ onClose }: ItemPostProps) {
   const token = user?.token || "";
   const [itemData, setItemData] = useState<ItemData>({ image: null });
   const [error, setError] = useState<string | null>(null);
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+const distance="20"
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -55,9 +57,10 @@ export default function ItemPost({ onClose }: ItemPostProps) {
       return;
     }
 
-    try {
-      setError(null);
+    setLoading(true);
+    setError(null);
 
+    try {
       // Create FormData
       const formData = new FormData();
       formData.append("name", itemData.name || "");
@@ -65,7 +68,7 @@ export default function ItemPost({ onClose }: ItemPostProps) {
       formData.append("category", itemData.category || "");
       formData.append("condition", itemData.condition || "");
       formData.append("price", itemData.price || "");
-      formData.append("distance", itemData.distance || "");
+      formData.append("distance", distance || "");
       formData.append("image", itemData.image); // Append the file
 
       // Send data to the backend
@@ -76,31 +79,42 @@ export default function ItemPost({ onClose }: ItemPostProps) {
         },
       });
 
-      onClose(); // Close the modal on successful submission
+      setSuccessMessage("Item added successfully!");
+      setTimeout(() => {
+        setSuccessMessage(null);
+        onClose(); // Close the modal
+        window.location.reload(); // Refresh the page
+      }, 2000);
     } catch (err) {
       setError("Failed to post the item. Please try again later.");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="p-6 w-full max-w-lg bg-white rounded-lg shadow-lg relative">
-        <h2 className="text-xl font-semibold mb-4 text-center">
-          Post an Item
-        </h2>
+        <h2 className="text-xl font-semibold mb-4 text-center">Post an Item</h2>
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+        {successMessage && (
+          <p className="text-green-500 mb-4 text-center">{successMessage}</p>
+        )}
         <form onSubmit={handleAddItem} className="space-y-4">
           {[
             { label: "Name", name: "name", type: "text" },
             { label: "Description", name: "description", type: "text" },
             { label: "Price", name: "price", type: "text" },
-            { label: "Distance", name: "distance", type: "text" },
+            // { label: "Distance", name: "distance", type: "text" },
           ].map((field) => (
-            <div key={field.name} className="flex flex-col">
+            <div
+              key={field.name}
+              className="flex items-center justify-between space-x-4"
+            >
               <label
                 htmlFor={field.name}
-                className="text-sm font-medium text-gray-700 mb-1"
+                className="text-sm font-medium text-gray-700 w-1/4"
               >
                 {field.label}
               </label>
@@ -108,17 +122,19 @@ export default function ItemPost({ onClose }: ItemPostProps) {
                 id={field.name}
                 name={field.name}
                 type={field.type}
-                value={(itemData[field.name as keyof ItemData] ?? "").toString()}
+                value={(
+                  itemData[field.name as keyof ItemData] ?? ""
+                ).toString()}
                 onChange={handleInputChange}
-                className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
+                className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7] w-3/4"
                 required={field.name === "name" || field.name === "price"}
               />
             </div>
           ))}
-          <div className="flex flex-col">
+          <div className="flex items-center justify-between space-x-4">
             <label
               htmlFor="category"
-              className="text-sm font-medium text-gray-700 mb-1"
+              className="text-sm font-medium text-gray-700 w-1/4"
             >
               Category
             </label>
@@ -127,7 +143,7 @@ export default function ItemPost({ onClose }: ItemPostProps) {
               name="category"
               value={itemData.category || ""}
               onChange={handleInputChange}
-              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
+              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7] w-3/4"
               required
             >
               <option value="" disabled>
@@ -140,10 +156,10 @@ export default function ItemPost({ onClose }: ItemPostProps) {
               <option value="Other">Other</option>
             </select>
           </div>
-          <div className="flex flex-col">
+          <div className="flex items-center justify-between space-x-4">
             <label
               htmlFor="condition"
-              className="text-sm font-medium text-gray-700 mb-1"
+              className="text-sm font-medium text-gray-700 w-1/4"
             >
               Condition
             </label>
@@ -152,7 +168,7 @@ export default function ItemPost({ onClose }: ItemPostProps) {
               name="condition"
               value={itemData.condition || ""}
               onChange={handleInputChange}
-              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
+              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7] w-3/4"
               required
             >
               <option value="" disabled>
@@ -165,10 +181,10 @@ export default function ItemPost({ onClose }: ItemPostProps) {
               ))}
             </select>
           </div>
-          <div className="flex flex-col">
+          <div className="flex items-center justify-between space-x-4">
             <label
               htmlFor="image"
-              className="text-sm font-medium text-gray-700 mb-1"
+              className="text-sm font-medium text-gray-700 w-1/4"
             >
               Image
             </label>
@@ -178,7 +194,7 @@ export default function ItemPost({ onClose }: ItemPostProps) {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
+              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7] w-3/4"
               required
             />
           </div>
@@ -187,14 +203,16 @@ export default function ItemPost({ onClose }: ItemPostProps) {
               type="button"
               onClick={onClose}
               className="px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-100"
+              disabled={loading}
             >
               Cancel
             </button>
             <button
               type="submit"
               className="bg-[#38CEBC] text-white px-4 py-2 rounded hover:bg-[#1ACAB7]"
+              disabled={loading}
             >
-              Add Item
+              {loading ? "Loading..." : "Add Item"}
             </button>
           </div>
         </form>

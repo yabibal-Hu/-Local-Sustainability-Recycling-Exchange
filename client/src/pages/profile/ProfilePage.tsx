@@ -26,9 +26,10 @@ const ProfilePage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemId, setItemId] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile>({}); // Explicitly typed state
-  const handleModalOpen = () => setIsModalOpen(true);
-  const handleModalClose = () => setIsModalOpen(false);
+  const handleModalOpen = (id: string) => (setIsModalOpen(true), setItemId(id));
+  const handleModalClose = () => (setIsModalOpen(false), setItemId(null));
   const { name, profilePicture } = profile;
   const id = user?.id;
   const token = user?.token;
@@ -96,7 +97,7 @@ const ProfilePage = () => {
     <div className="flex h-screen ">
       <main className="flex-1 p-8 w-3/4">
         <div className="flex flex-col gap-2 items-center">
-          <div className="relative">
+          <div className="relative z-0">
             {profilePicture ? (
               <img
                 src={`${API_URL}${profilePicture}`}
@@ -110,7 +111,7 @@ const ProfilePage = () => {
             )}
             <label
               htmlFor="profilePictureInput"
-              className="absolute  bottom-0 right-0 cursor-pointer"
+              className="absolute z-50 bottom-0 right-0 cursor-pointer"
             >
               <img
                 src="https://img.icons8.com/?size=100&id=11816&format=png&color=000000"
@@ -189,17 +190,17 @@ const ProfilePage = () => {
                 <span className="text-lg font-semibold text-gray-700">
                   $ {item.price}
                 </span>
-                <button onClick={handleModalOpen}>
+                <button onClick={() => handleModalOpen(item._id)}>
                   <img
                     src="https://img.icons8.com/?size=100&id=102714&format=png&color=000000"
                     alt=""
                     className="w-16 h-16"
                   />
                 </button>
-              </div>
               {isModalOpen && (
-                <ItemEdit itemId={item._id} onClose={handleModalClose} />
+                <ItemEdit itemIdd={itemId ?? ""} onClose={handleModalClose} />
               )}
+              </div>
             </>
           ))}
           {loading && <div className=" w-24 h-24 mx-auto"><Loading /></div>}

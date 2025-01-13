@@ -6,7 +6,7 @@ export default function Header() {
   const { profiles,user } = useAuth();
   const profilePicture = profiles?.profilePicture || "";
   return (
-    <div className="sticky top-0 z-50 bg-white">
+    <div className="sticky z-50 top-0 bg-white h-[135px]">
       <div className="bg-[#2C1F2E]">Header</div>
       <div className="flex justify-between p-4 mx-6 border-b border-gray-300">
         <Link to="/" className="flex items-center space-x-4">

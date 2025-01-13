@@ -17,7 +17,7 @@ export default function Hero() {
             community.
           </p>
           <div className="space-x-4">
-            <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+            <button className="px-4 py-2 bg-[#38CEBC] text-white rounded-md hover:bg-[#1ACAB7]">
               Start Exchanging Today!
             </button>
             <button

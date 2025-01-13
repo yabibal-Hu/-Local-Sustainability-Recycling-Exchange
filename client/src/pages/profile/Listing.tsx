@@ -60,7 +60,7 @@ export default function Listing() {
 
   return (
     <div>
-      <div className="mt-6 space-y-4">
+      <div className="mt-6 space-y-4 mx-4">
         {items.map((item: Item, index) => (
           <>
             <div

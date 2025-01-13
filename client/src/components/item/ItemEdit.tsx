@@ -15,25 +15,26 @@ type ItemData = {
 };
 
 interface ItemEditProps {
-  itemId: string; // Item ID to edit
+  itemIdd: string; // Item ID to edit
   onClose: () => void;
 }
 
 const allowedConditions = ["New", "Used", "Good", "Fair", "Poor"];
 
-export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
+export default function ItemEdit({ itemIdd, onClose }: ItemEditProps) {
   const { user } = useAuth();
   const token = user?.token || "";
   const [itemData, setItemData] = useState<ItemData>({ image: null });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false); // Add loading state
   const [success, setSuccess] = useState<boolean>(false); // Add success state
-
+  const distance="20"
+console.log("itemId", itemIdd);
   // Fetch the existing item data when the component mounts
   useEffect(() => {
     const fetchItemData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/items/${itemId}`, {
+        const response = await axios.get(`${API_URL}/api/items/${itemIdd}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,7 +47,7 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
     };
 
     fetchItemData();
-  }, [itemId, token]);
+  }, [itemIdd, token]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -88,13 +89,13 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
       formData.append("category", itemData.category || "");
       formData.append("condition", itemData.condition || "");
       formData.append("price", itemData.price || "");
-      formData.append("distance", itemData.distance || "");
+      formData.append("distance", distance || "");
       if (itemData.image) {
         formData.append("image", itemData.image); // Append the file
       }
 
       // Send data to the backend to update the item
-      await axios.put(`${API_URL}/api/items/${itemId}`, formData, {
+      await axios.put(`${API_URL}/api/items/${itemIdd}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Required for file uploads
           Authorization: `Bearer ${token}`,
@@ -132,12 +133,13 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
             { label: "Name", name: "name", type: "text" },
             { label: "Description", name: "description", type: "text" },
             { label: "Price", name: "price", type: "text" },
-            { label: "Distance", name: "distance", type: "text" },
+            // { label: "Distance", name: "distance", type: "text" },
+            
           ].map((field) => (
-            <div key={field.name} className="flex flex-col">
+            <div key={field.name} className="flex items-center justify-between">
               <label
                 htmlFor={field.name}
-                className="text-sm font-medium text-gray-700 mb-1"
+                className="text-sm font-medium text-gray-700 w-1/4"
               >
                 {field.label}
               </label>
@@ -149,15 +151,15 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
                   itemData[field.name as keyof ItemData] ?? ""
                 ).toString()}
                 onChange={handleInputChange}
-                className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
+                className="border border-gray-300 rounded px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
                 required={field.name === "name" || field.name === "price"}
               />
             </div>
           ))}
-          <div className="flex flex-col">
+          <div className="flex items-center justify-between">
             <label
               htmlFor="category"
-              className="text-sm font-medium text-gray-700 mb-1"
+              className="text-sm font-medium text-gray-700 w-1/4"
             >
               Category
             </label>
@@ -166,7 +168,7 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
               name="category"
               value={itemData.category || ""}
               onChange={handleInputChange}
-              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
+              className="border border-gray-300 rounded px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
               required
             >
               <option value="" disabled>
@@ -179,10 +181,10 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
               <option value="Other">Other</option>
             </select>
           </div>
-          <div className="flex flex-col">
+          <div className="flex items-center justify-between">
             <label
               htmlFor="condition"
-              className="text-sm font-medium text-gray-700 mb-1"
+              className="text-sm font-medium text-gray-700 w-1/4"
             >
               Condition
             </label>
@@ -191,7 +193,7 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
               name="condition"
               value={itemData.condition || ""}
               onChange={handleInputChange}
-              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
+              className="border border-gray-300 rounded px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
               required
             >
               <option value="" disabled>
@@ -204,10 +206,10 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
               ))}
             </select>
           </div>
-          <div className="flex flex-col">
+          <div className="flex items-center justify-between">
             <label
               htmlFor="image"
-              className="text-sm font-medium text-gray-700 mb-1"
+              className="text-sm font-medium text-gray-700 w-1/4"
             >
               Image
             </label>
@@ -217,7 +219,7 @@ export default function ItemEdit({ itemId, onClose }: ItemEditProps) {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
+              className="border border-gray-300 rounded px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-[#1ACAB7]"
             />
           </div>
           <div className="flex justify-end space-x-4">

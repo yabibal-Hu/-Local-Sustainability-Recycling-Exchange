@@ -55,7 +55,7 @@ console.log("categories", categories)
             View all
           </button> */}
         </div>
-        <div className="grid grid-cols-5 gap-8">
+        <div className="grid grid-cols-4 gap-4">
           {filteredItems.map((item) => (
             <ItemCard key={item._id} item={item} />
           ))}
@@ -67,7 +67,7 @@ console.log("categories", categories)
         <h2 className="text-xl font-semibold text-gray-800 mb-6">
           Most claimed items
         </h2>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           {items.map((item) => (
             <ItemCard key={item._id} item={item} />
           ))}
@@ -75,16 +75,16 @@ console.log("categories", categories)
       </section>
 
       {/* Filters Section */}
-      <section className="mb-12">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">All items</h2>
+      <section className="mb-4">
+        <h2 className="text-xl font-semibold text-gray-800 ">All items</h2>
 
-        <div className="flex flex-wrap gap-2 mb-6"></div>
-        <div className="flex flex-wrap gap-2"></div>
+        {/* <div className="flex flex-wrap gap-2 mb-6"></div>
+        <div className="flex flex-wrap gap-2"></div> */}
       </section>
 
       {/* All Items Section */}
       <section>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           {items.map((item) => (
             <ItemCard key={item._id} item={item} />
           ))}
