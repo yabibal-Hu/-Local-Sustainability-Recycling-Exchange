@@ -111,13 +111,12 @@ Frontend will be available at `http://localhost:5173`.
 ## 📸 Screenshots  
 
 ### Homepage  
-![Homepage](link-to-homepage-screenshot)  
 
-### Item Listing Page  
-![Items](link-to-items-screenshot)  
+![Homepage](../-Local-Sustainability-Recycling-Exchange/client/public/assets/imgs/home.png)  
+
 
 ### Messaging  
-![Messaging](link-to-messaging-screenshot)  
+![Messaging](../-Local-Sustainability-Recycling-Exchange/client/public/assets/imgs/message.png)  
 
 ---  
 
