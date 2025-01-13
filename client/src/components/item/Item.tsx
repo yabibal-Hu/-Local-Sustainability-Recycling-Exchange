@@ -17,6 +17,12 @@ interface Item {
   image?: string;
   name?: string;
   price?: number;
+  owner?: {
+    name?: string;
+    email?: string;
+    profilePicture?: string;  
+
+  }
 }
 
 interface User {
@@ -118,7 +124,7 @@ export default function ItemDetail() {
       <div className="mt-6">
         <h3 className="text-lg font-medium text-gray-700">Details</h3>
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <div>
+          <div className="space-y-2">
             <p className="text-gray-500">
               <span className="font-semibold text-gray-700">Category:</span>{" "}
               {item?.category || "N/A"}
@@ -127,25 +133,25 @@ export default function ItemDetail() {
               <span className="font-semibold text-gray-700">Condition:</span>{" "}
               {item?.condition || "N/A"}
             </p>
-            <p className="text-gray-500">
+            {/* <p className="text-gray-500">
               <span className="font-semibold text-gray-700">Distance:</span>{" "}
               {item?.distance || "0"} km
-            </p>
+              </p> */}
+              <p className="text-gray-500">
+                <span className="font-semibold text-gray-700">Posted On:</span>{" "}
+                {item?.createdAt
+                  ? new Date(item.createdAt).toLocaleDateString()
+                  : "N/A"}
+              </p>
           </div>
           <div>
             <p className="text-gray-500">
               <span className="font-semibold text-gray-700">Featured:</span>{" "}
               {item?.featured ? "Yes" : "No"}
             </p>
-            <p className="text-gray-500">
+            <p className="text-gray-500 mt-2">
               <span className="font-semibold text-gray-700">Claimed:</span>{" "}
               {item?.isClaimed ? "Yes" : "No"}
-            </p>
-            <p className="text-gray-500">
-              <span className="font-semibold text-gray-700">Posted On:</span>{" "}
-              {item?.createdAt
-                ? new Date(item.createdAt).toLocaleDateString()
-                : "N/A"}
             </p>
           </div>
         </div>
@@ -162,14 +168,34 @@ export default function ItemDetail() {
       {/* Owner Contact */}
       <div className="mt-6 p-4 bg-white rounded-md shadow-sm">
         <h3 className="text-lg font-medium text-gray-700">Owner Information</h3>
-        <p className="mt-2 text-gray-500">
-          <span className="font-semibold text-gray-700">Name:</span>{" "}
-          {user.name || "N/A"}
-        </p>
-        <p className="text-gray-500">
-          <span className="font-semibold text-gray-700">Email:</span>{" "}
-          {user.email || "N/A"}
-        </p>
+        <div className="flex items-center gap-2 mt-2">
+          <div>
+
+          {item?.owner?.profilePicture ? (
+              <img
+              src={`${API_URL}${item.owner.profilePicture}`}
+              alt=""
+              className=" h-10 w-10 rounded-full border-2 border-[#E7F3F1]"
+              />
+          ) : (
+              <div className="  h-10 w-10 rounded-full bg-gray-600 flex items-center justify-center text-white text-4xl font-semibold">
+              <p className="uppercase p-2 m-2">
+                  {item.owner?.name?.charAt(0).toUpperCase() || "U"}
+              </p>
+              </div>
+          )}
+          </div>
+          <div>
+            <p className=" text-gray-500">
+              <span className="font-semibold text-gray-700">Name:</span>{" "}
+              {item.owner?.name || "N/A"}
+            </p>
+            <p className="text-gray-500">
+              <span className="font-semibold text-gray-700">Email:</span>{" "}
+              {item.owner?.email || "N/A"}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

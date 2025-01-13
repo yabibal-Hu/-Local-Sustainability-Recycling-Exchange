@@ -96,11 +96,14 @@ export default function Home() {
             className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
           />
         </div>
-        <div className="w-full mx-auto px-4 mt-4 absolute ">
+        <div className="w-full mx-auto px-4 mt-4 bg-gray-50 absolute  ">
           {searchResults &&
-            searchResults.map((item) => (<SearchItem item={item} />))}
+            searchResults.map((item) => (
+                <SearchItem item={item} />
+            ))}
         </div>
       </section>
+
       <ItemsPage categories={categories} />
       {/* Why Exchange Section */}
       <section className="py-12 bg-gray-100">
